@@ -1,34 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import { useTheme } from './ThemeContext';
 
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.tsx</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
+const App: React.FC = () => {
+  const {theme, toggleTheme} = useTheme();
+  const handleThemeChange = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    console.log(newTheme)
+    toggleTheme(newTheme);
+  };
 
-const App:React.FC = () => {
   return (
-    <div>
-      깃 페이지 브랜치 테스트
+    <div className={theme}>
+      <div>
+        깃 페이지 브랜치 테스트
+      </div>
+      <button onClick={handleThemeChange}>다크모드 테스트</button>
     </div>
-  )
+  );
 }
 
 export default App;
