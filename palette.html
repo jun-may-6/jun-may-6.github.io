@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .color{
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+            cursor: pointer; 
+        }
+        .dark{
+            color: white;
+        }
+        .theme{
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <h2>라이트 모드</h2>
+    <div class="theme">
+        <div class="color" style="background-color: #ECE3D4;">기본 배경</div>
+        <div class="color" style="background-color: #D5B990;"></div>
+        <div class="color dark" style="background-color: #372A15;">제목</div>
+        <div class="color" style="background-color: #BF9969;">헤더 경계선</div>
+        <div class="color" style="background-color: #D5BA90;">호버, 선택</div>
+        <div class="color" style="background-color: #5C4523;">본문</div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.color').forEach(element => {
+            element.addEventListener('click', function() {
+                const bgColor = rgbToHex(this.style.backgroundColor);
+                copyToClipboard(bgColor);
+            });
+        });
+        function rgbToHex(rgb) {
+            const rgbArray = rgb.match(/\d+/g);
+            if (!rgbArray) return rgb;
+            const hex = rgbArray.map(num => {
+                const hex = parseInt(num, 10).toString(16);
+                return hex.length === 1 ? '0' + hex : hex;
+            }).join('');
+            return `#${hex}`;
+        }
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text)
+        }
+    </script>
+</body>
+</html>

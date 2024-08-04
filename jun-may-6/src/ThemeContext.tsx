@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect, useRef } from 'react';
 
 /* 타입 선언 */
 interface ThemeContextType {
@@ -11,6 +11,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [theme, setTheme] = useState<string | null>(null);
+    const isFirstRender = useRef(true);
 
     useEffect(() => {
         const localTheme: string | null = localStorage.getItem('theme');
@@ -27,13 +28,20 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             }
         }
     }, []);
+
     useEffect(() => {
-        if(theme !== null){
-            const root:HTMLElement  = document.documentElement;
+        if (theme !== null) {
+            const root: HTMLElement = document.documentElement;
             root.className = '';
             root.classList.add(theme);
+            
+            if (isFirstRender.current) {
+                isFirstRender.current = false;
+            } else {
+                document.body.classList.add('bg-transition');
+            }
         }
-    },[theme])
+    }, [theme]);
 
     const toggleTheme = (newTheme: string) => {
         setTheme(newTheme);
